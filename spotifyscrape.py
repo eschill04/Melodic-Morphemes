@@ -1,4 +1,5 @@
 import requests
+import pandas as pd
 
 # Your Client ID and Client Secret
 client_id = '112013e3093d468a9b35a46d6d550298'
@@ -20,7 +21,7 @@ def get_playlist_tracks(access_token, playlist_id):
     headers = {'Authorization': f'Bearer {access_token}'}
     response = requests.get(url, headers=headers)
     if response.status_code == 200:
-        return [item['track']['name'] for item in response.json()['tracks']['items']]
+        return [(item['track']['name'], item['track']['artists'][0]['name']) for item in response.json()['tracks']['items']]
     else:
         raise Exception("Could not fetch playlist tracks")
 
@@ -30,8 +31,13 @@ access_token = get_access_token(client_id, client_secret)
 with open('playlists.txt', 'r') as file:
     playlist_ids = file.read().splitlines()
 
-for playlist_id in playlist_ids:
-    tracks = get_playlist_tracks(access_token, playlist_id)
-    print(f'Playlist ID {playlist_id} contains the following tracks:')
-    for track in tracks:
-        print(track)
+info = []
+for i in range(0, len(playlist_ids)-1, 2):
+    genre = playlist_ids[i]
+    tracks = get_playlist_tracks(access_token, playlist_ids[i+1])
+    for track, artist in tracks:
+        info.append({"track": track, "artist": artist, "genre": genre})
+
+pd.DataFrame(info).to_csv('songs.csv', index=False)
+        
+
