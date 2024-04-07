@@ -36,7 +36,7 @@ for i in range(0, len(playlist_ids)-1, 2):
     genre = playlist_ids[i]
     tracks = get_playlist_tracks(access_token, playlist_ids[i+1])
     for track, artist in tracks:
-        info.append({"track": track, "artist": artist, "genre": genre})
+        info.append({"track": track, "artist": artist, "genre": genre, "lyrics": None})
 
 pd.DataFrame(info).to_csv('songs.csv', index=False)
         
