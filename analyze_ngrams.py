@@ -1,4 +1,10 @@
 import pandas as pd
+import nltk
+from nltk.corpus import stopwords
+
+# Download the set of stop words
+nltk.download('stopwords')
+stop_words = set(stopwords.words('english'))
 
 df = pd.read_csv("songs.csv")
 # NEED TO STRIP PUNCTUATION
@@ -36,7 +42,8 @@ for genre in genre_lyrics:
         if type(lyric) != float:
             words = lyric.split()
             # remove any words that contain ] or [
-            words = [word for word in words if "]" not in word and "[" not in word]
+            words = [word.lower() for word in words if "]" not in word and "[" not in word]
+            words = [word for word in words if word.lower() not in stop_words.union({"•", "-", "&"})]
             contractions = [word for word in ngrams if "'" in word and word[-1] != "'"]
             for i in range(len(words) - n + 1):
                 ngram = " ".join(words[i:i+n])
@@ -59,6 +66,14 @@ for genre in genre_lyrics:
     # look at frequency of contractions: print count of words with apostrophes
     print("Contractions: ", len(contractions))
 
+    print("Top 20 1-grams: ", ngram_counts.head(20))
+
+    print("Swear words: ")
+    for word in ["bitch", "dick", "fuck", "pussy", "shit", "bastard", "ass", "booty"]:
+        try:
+            print(word,":", ngram_counts[word])
+        except KeyError:
+            pass
 
     n = 2
     ngrams = []
@@ -67,8 +82,8 @@ for genre in genre_lyrics:
         if type(lyric) != float:
             words = lyric.split()
             # remove any words that contain ] or [
-            words = [word for word in words if "]" not in word and "[" not in word]
-            
+            words = [word.lower() for word in words if "]" not in word and "[" not in word]
+            words = [word for word in words if word.lower() not in stop_words.union({"•", "-", "&"})]
             for i in range(len(words) - n + 1):
                 if words[i] == words[i+1]:
                     dups.add(words[i])
