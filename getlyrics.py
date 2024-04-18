@@ -13,7 +13,8 @@ for i, row in df.iterrows():
         if song:
             df.loc[i, 'lyrics'] = song.lyrics
         else:
-            df.loc[i, 'lyrics'] = None
+            # remove the song from the dataframe
+            df = df.drop(i)
             print("could not find oopsies, sorry", row['track'], row['artist'])
 
 df.to_csv('songs.csv', index=False)
