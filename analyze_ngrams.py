@@ -2,8 +2,8 @@ import pandas as pd
 import nltk
 from nltk.corpus import stopwords
 
+
 # Download the set of stop words
-nltk.download('stopwords')
 stop_words = set(stopwords.words('english'))
 
 df = pd.read_csv("songs.csv")
@@ -48,7 +48,7 @@ for genre in genre_lyrics:
             for i in range(len(words) - n + 1):
                 ngram = " ".join(words[i:i+n])
                 ngrams.append(ngram)
-        
+    
     # Count frequency of n-grams
     print("\n")
     print("Genre: ", genre)
@@ -89,4 +89,18 @@ for genre in genre_lyrics:
                     dups.add(words[i])
     # look at frequency of reduplication (n = 2)
     print(dups)
+
+    n = 3
+    ngrams = []
+    verbs = set()
+    for lyric in lyrics:
+        if type(lyric) != float:
+            words = lyric.split()
+            # remove any words that contain ] or [
+            words = [word.lower() for word in words if "]" not in word and "[" not in word]
+            #words = [word for word in words if word.lower() not in stop_words.union({"•", "-", "&"})]
+            for i in range(len(words) - n + 1):
+                if "don't" == words[i] or "ain't" == words[i] or "can't" == words[i] or "doesn't" == words[i]:
+                    verbs.add(" ".join(words[i:i+3]))
+    print(verbs)
     
