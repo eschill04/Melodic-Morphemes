@@ -3,7 +3,7 @@ import pandas as pd
 
 # Your Client ID and Client Secret
 client_id = '112013e3093d468a9b35a46d6d550298'
-client_secret = 'cda32ed03e604f67b6f6f4b41af68e90'
+client_secret = 'REDACTED'
 
 # Function to get OAuth token
 def get_access_token(client_id, client_secret):
