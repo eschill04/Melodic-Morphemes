@@ -2,7 +2,7 @@ import lyricsgenius
 import pandas as pd
 
 client_id = 'qV1NAhgDyrjKtysnG7n3ekxuT_a2BD_KYfhnyx_e32rvOgDgSyH0b3vD56tZbYgA'
-client_secret = '8emr36hq8ZdqNLQLPLw3-4d5hb_7IoKWCusTeImbJc5znf9OzMmczmRYnYBAIk5EqG2CrCakaehID0gZuaDLMQ'
+client_secret = 'REDACTED'
 
 genius = lyricsgenius.Genius(client_id, client_secret)
 
