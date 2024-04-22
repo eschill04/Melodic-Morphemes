@@ -74,7 +74,21 @@ def aint_dont_doesnt():
     plt.suptitle("Use of 'ain't', 'don't', 'doesn't' in different genres")
     plt.show()
 
+def doubleneg():
+    genres = ["Country", "Pop", "R&B", "Rock"]
+    numbers = [16, 7, 23, 0]
+    fig, ax = plt.subplots()
+    colors=['black', 'peachpuff', 'chocolate', 'dimgray']
 
+    # make a bar chart horizontal
+    ax.barh(genres, numbers, color=colors)
+    # include the numbers themselves
+    for i in range(len(numbers)):
+        ax.text(numbers[i], i, numbers[i], ha='left', va='center')
+    ax.set_xlabel("Number of unique (3-gram) phrases using double negatives")
+    ax.set_ylabel("Genre")
+    ax.set_title("Unique instances of double negation in different genres")
+    plt.show()
     
-aint_dont_doesnt()
+doubleneg()
 

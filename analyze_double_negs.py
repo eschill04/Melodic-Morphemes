@@ -6,6 +6,7 @@ double_negatives3 = {"ain't no need", "ain't never been", "ain't no way", "ain't
 
 
 df = pd.read_csv('songs.csv')
+alldubs = []
 
 genres = df["genre"].unique()
 genre_lyrics = {}
@@ -32,7 +33,7 @@ for genre in genre_lyrics:
     # Tokenize lyrics into n-grams
     n = 3
     ngrams = []
-    verbs = []
+    verbs = set()
     for lyric in lyrics:
         if type(lyric) != float:
             words = lyric.split()
@@ -41,8 +42,15 @@ for genre in genre_lyrics:
             #words = [word for word in words if word.lower() not in stop_words.union({"•", "-", "&"})]
             for i in range(len(words) - n + 1):
                 if " ".join(words[i:i+3]) in double_negatives or " ".join(words[i:i+3]) in double_negatives2 or " ".join(words[i:i+3]) in double_negatives3:
-                    verbs.append(" ".join(words[i:i+3]))
+                    verbs.add(" ".join(words[i:i+3]))
+                    
     print(genre)
     print(verbs)
+    print(len(verbs))
 
+    # add all items in verbs to alldubs
+    for verb in verbs:
+        alldubs.append(verb)
+
+print(pd.Series(alldubs).value_counts())
 
